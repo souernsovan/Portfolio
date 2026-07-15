@@ -21,6 +21,12 @@ COPY --from=assets /app/public/build /var/www/html/public/build
 # boot fast and doesn't depend on network access when the container starts.
 RUN composer install --no-dev --optimize-autoloader --no-interaction --working-dir=/var/www/html
 
+# Make sure the nginx worker can actually read the compiled assets and app files,
+# regardless of what user owned them during the build steps above.
+RUN chown -R nginx:nginx /var/www/html \
+    && find /var/www/html/public -type d -exec chmod 755 {} \; \
+    && find /var/www/html/public -type f -exec chmod 644 {} \;
+
 # Image config
 ENV SKIP_COMPOSER=1
 ENV WEBROOT=/var/www/html/public
