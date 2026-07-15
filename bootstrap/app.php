@@ -14,6 +14,11 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin.auth' => \App\Http\Middleware\EnsureAdminAuthenticated::class,
         ]);
+
+        // Trust the proxy Render (or any PaaS host) sits behind, so Laravel reads
+        // X-Forwarded-Proto/-Host/-Port correctly (request scheme, secure cookies,
+        // generated URLs) instead of seeing plain HTTP from the internal request.
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
