@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-echo "Running composer"
-composer install --no-dev --optimize-autoloader --working-dir=/var/www/html
+# composer install now runs at Docker build time (see Dockerfile), so this
+# script only handles things that must happen against the live environment/DB.
 
 echo "Linking storage..."
 php artisan storage:link || true

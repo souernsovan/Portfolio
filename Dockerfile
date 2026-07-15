@@ -10,8 +10,16 @@ RUN npm run build
 # --- Stage 2: PHP + nginx runtime ---
 FROM richarvey/nginx-php-fpm:3.1.6
 
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER=1
+
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 COPY . .
 COPY --from=assets /app/public/build /var/www/html/public/build
+
+# Install PHP dependencies at build time, not at container startup — this makes
+# boot fast and doesn't depend on network access when the container starts.
+RUN composer install --no-dev --optimize-autoloader --no-interaction --working-dir=/var/www/html
 
 # Image config
 ENV SKIP_COMPOSER=1
@@ -24,8 +32,5 @@ ENV REAL_IP_HEADER=1
 ENV APP_ENV=production
 ENV APP_DEBUG=false
 ENV LOG_CHANNEL=stderr
-
-# Allow composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER=1
 
 CMD ["/start.sh"]
