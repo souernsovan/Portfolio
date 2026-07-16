@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ProjectController as AdminProjectController;
 use App\Http\Controllers\Admin\SkillCategoryController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProjectController;
@@ -43,5 +44,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+
+        Route::resource('users', UserController::class)->except(['show']);
     });
 });
