@@ -30,6 +30,12 @@ class HomeController extends Controller
             'happy_clients' => $testimonials->count(),
         ];
 
-        return view('home', compact('profile', 'projects', 'skills', 'experiences', 'testimonials', 'stats'));
+        $seoImage = $profile?->avatar_url;
+        $seoUrl = route('home');
+
+        return view('home', compact(
+            'profile', 'projects', 'skills', 'experiences', 'testimonials', 'stats',
+            'seoImage', 'seoUrl'
+        ));
     }
 }
