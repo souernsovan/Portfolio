@@ -48,7 +48,7 @@
                     <tr>
                         <td style="padding:20px 32px; border-top:1px solid #ececea;">
                             <p style="margin:0; color:#8a8a85; font-size:12px;">
-                                Sent from {{ $profile->name ?? 'my portfolio' }}'s contact form.
+                                Sent from {{ $profile->name ?? 'my portfolio' }}'s contact.
                             </p>
                         </td>
                     </tr>
